@@ -5,4 +5,5 @@ Forked on: 9/11/2020 <br/>
 Completed on: ... <br/>
 
 # Features:
- - custom
+ - Custom Event Handler / Run Service
+ - Reactive rendering
