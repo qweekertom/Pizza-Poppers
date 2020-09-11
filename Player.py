@@ -7,6 +7,9 @@ FRAMES = 4
 
 players = []
 
+# Note:
+#   Commented out interaction
+
 class Player:
 	def __init__(self,vel,startPos,skin="GenericCharacter",control=1):
 		self.control = control
@@ -40,16 +43,16 @@ class Player:
 		if self.control == 1: #First Player Control
 			if keys[pygame.K_w]:
 				self.move(0, -self.vel)
-			elif keys[pygame.K_a]:
+			if keys[pygame.K_a]:
 				self.move(-self.vel, 0)
-			elif keys[pygame.K_s]:
+			if keys[pygame.K_s]:
 				self.move(0, self.vel)
-			elif keys[pygame.K_d]:
+			if keys[pygame.K_d]:
 				self.move(self.vel, 0)
 			else:
 				self.AnimationEvent.Active = False
-			if keys[pygame.K_e]:
-				self.interact()
+			#if keys[pygame.K_e]:
+            #    self.interact()
 			if keys[pygame.K_q]:
 				self.holding = None
 			if not self.holding == None:
@@ -63,8 +66,8 @@ class Player:
 				self.move(0, self.vel)
 			if keys[pygame.K_RIGHT]:
 				self.move(self.vel, 0)
-			if keys[pygame.K_KP1]:
-				self.interact()
+			#if keys[pygame.K_KP1]:
+            #    self.interact()
 			if keys[pygame.K_KP2]:
 				self.drop()
 			if not self.holding == None:
@@ -120,10 +123,8 @@ class Player:
 					item.parent = None
 					self.holding = item
 		else:
-			print(1)
 			testPos = [self.rect.centerx+(-40*self.fx),self.rect.centery+(-40*self.fy)]
 			for tile in TileMap.tms[0].tiles:
 				if tile.rect.collidepoint(testPos):
-					print(tile)
 					tile.holding = self.holding
 					self.holding = None

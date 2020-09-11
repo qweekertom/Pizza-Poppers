@@ -6,4 +6,9 @@ Completed on: ... <br/>
 
 # Features:
  - Custom Event Handler / Run Service
- - Reactive rendering
+ - Tile Map System
+ - Item System
+ - Interactive Buttons
+ 
+# New Features:
+ - Dynamic Rendering

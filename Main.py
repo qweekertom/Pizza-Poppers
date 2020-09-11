@@ -22,6 +22,7 @@ icon = pygame.image.load("Images/icon.png")
 pygame.display.set_icon(icon)
 screenState = "Title"
 paused = False
+warmup = False
 musicPlaying = False
 createItem((200,300),"Chicken")
 createItem((250,350),"Beef")
@@ -32,7 +33,7 @@ pbc = mx.Sound("Sound/PBC.ogg")
 
 
 # Game Objects
-tileMap = TileMap.TileMap(10,"test.lvl")
+tileMap = TileMap.TileMap(screen, 10,"test.lvl")
 plr = Player(5,(100,100),"GenericCharacter.png",1)
 bkg = pygame.image.load("Images/Backgrounds/SteelFloor.png")
 orders = pygame.image.load("Images/Orders.png")
@@ -61,23 +62,29 @@ while True:
             if event.key == pygame.K_ESCAPE:
                 if screenState == "Play" or screenState == "Pause":
                     paused = not paused
-    screen.fill((0,100,0))
+            if event.key == pygame.K_j:
+                tileMap.purge()
     
     if screenState == "Play": # Game Window
         if paused:
             screenState = "Pause"
         else:
-            screen.blit(bkg, (0,0))
+            if warmup:
+                print("warmup")
+                tileMap.warmup()
             screen.blit(orders,(960,0))
-            tileMap.render(screen)
+            tileMap.render([plr])
             plr.get_input()
             plr.render_frame(screen)
             renderItems(screen)
+            warmup = False
             
     if screenState == "Title": # Title Screen Window
+        screen.fill((0,0,0))
         screen.blit(pygame.image.load("Images/Backgrounds/food3.jpg"), (0,0))
         if play.update():
             screenState = "Play"
+            warmup = True
         if exitGame.update():
             exit(); 
         if settings.update():

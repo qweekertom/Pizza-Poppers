@@ -1,4 +1,4 @@
-import pygame, LevelHandler
+import pygame, LevelHandler, math
 from Tile import *
 from StockBox import *
 from Counter import *
@@ -6,16 +6,28 @@ from Trash import *
 from DeliveryTable import *
 from ChoppingBoard import *
 
+
 tms = []
 
 class TileMap:
-    def __init__(self, size, level):
+    def __init__(self, screen, size, level):
+        self.screen = screen
         self.size = size
         self.tiles = []
         self.level = level
         self.loadingMap = False
         self.buildMap()
         tms.append(self)
+        
+    def _distanceCheck(self, tile, player, tolerance=160):
+        deltaX = tile.rect.x - player.rect.x
+        deltaY = tile.rect.y - player.rect.y
+        distance = math.sqrt(math.pow(deltaX,2) + math.pow(deltaY,2))
+        if (distance <= tolerance):
+            return True
+        else:
+            return False
+        
 
     def buildMap(self):
         mapData = LevelHandler.loadMapFile(self.level)
@@ -66,10 +78,35 @@ class TileMap:
                     self.tiles.append(DeliveryTable((x*80,y*80), None))
                 if char == "c":
                     self.tiles.append(ChoppingBoard((x*80,y*80), None))
-        
-    def render(self,screen):
+                if char == "-":
+                    self.tiles.append(Tile((x*80,y*80), "Images/Tiles/floor.png"))
+                    
+    def _renderTile(self, tile, player):
+        canRender = self._distanceCheck(tile, player)
+        if not (canRender):
+            return
+        self.screen.blit(tile.image, tile.rect)
+        item = None
+        try:
+            item = tile.holding
+        except:
+            pass
+        if item:
+            item.update(tile)
+    def render(self, playerList):
         for tile in self.tiles:
-            screen.blit(tile.image, tile.rect)
+            for player in playerList:
+                self._renderTile(tile, player)
+                
+    def purge(self):
+        self.tiles = []
+        self.screen.fill((0,0,0))
+        self.buildMap()
+                
+    def warmup(self):
+        for tile in self.tiles:
+            self.screen.blit(tile.image, tile.rect)
+            item = None
             try:
                 item = tile.holding
             except:
