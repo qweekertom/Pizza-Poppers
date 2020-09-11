@@ -20,8 +20,8 @@ class TileMap:
         tms.append(self)
         
     def _distanceCheck(self, tile, player, tolerance=160):
-        deltaX = tile.rect.x - player.rect.x
-        deltaY = tile.rect.y - player.rect.y
+        deltaX = tile.rect.centerx - player.rect.centerx
+        deltaY = tile.rect.centery - player.rect.centery
         distance = math.sqrt(math.pow(deltaX,2) + math.pow(deltaY,2))
         if (distance <= tolerance):
             return True

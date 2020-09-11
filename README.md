@@ -12,3 +12,4 @@ Completed on: ... <br/>
  
 # New Features:
  - Dynamic Rendering
+ - Launcher & Package Dependency Installer
