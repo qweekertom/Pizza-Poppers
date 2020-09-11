@@ -3,3 +3,6 @@ Fork of my high school game programming class project, written in Python by me, 
 
 Forked on: 9/11/2020 <br/>
 Completed on: ... <br/>
+
+# Features:
+ - custom
